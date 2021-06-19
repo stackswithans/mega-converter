@@ -2,20 +2,14 @@
 
 	import {onMount} from 'svelte';
         import Router from "svelte-spa-router";
-	import {createFFmpeg, fetchFile} from '@ffmpeg/ffmpeg';
+	import {initialize} from './utils';
         import VideoTab from "./Tab.svelte";
 	import routes from './routes';
 
         const tabs: Array<HTMLAnchorElement> = [];
 
-        const ffmpeg = createFFmpeg({
-            corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js',
-            log: true, 
-        });
-
         onMount(async()=> {
-            await ffmpeg.load();
-
+            await initialize();
             tabs.forEach((el: HTMLAnchorElement)=>{
                 el.addEventListener("click", function(e){
                    e.preventDefault(); 
