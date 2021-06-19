@@ -5,7 +5,10 @@
     "test": "web-test-runner \"src/**/*.test.ts\""
   },
   "dependencies": {
-    "svelte": "^3.37.0"
+    "@ffmpeg/core": "^0.10.0",
+    "@ffmpeg/ffmpeg": "^0.10.1",
+    "svelte": "^3.37.0",
+    "svelte-spa-router": "^3.2.0"
   },
   "devDependencies": {
     "@snowpack/plugin-dotenv": "^2.1.0",
