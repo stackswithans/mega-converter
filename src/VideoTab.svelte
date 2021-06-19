@@ -6,11 +6,21 @@
     let outputType: string;
     let file: File;
     let outputPreview: HTMLImageElement;
+    let conversionResult: HTMLParagraphElement;
+    let downloadLink: HTMLAnchorElement;
 
     const convertVideo = async () => {
         if(file === undefined) return;
-        const convertedFile = await convertFile(file, outputType);
-        outputPreview.src = URL.createObjectURL(convertedFile);
+
+        const [convertedFile, outname] = await convertFile(file, outputType);
+        conversionResult.innerText = (
+            "Conversão terminada. Novo tamanho: " 
+            + (convertedFile.size/1024/1024).toFixed(2) + "MB"
+        );
+
+        downloadLink.href = URL.createObjectURL(convertedFile);
+        downloadLink.download = outname;
+        downloadLink.classList.remove("disabled");
     }
 </script>
 
@@ -24,12 +34,17 @@
             <select bind:value={outputType} id="output-format" class="form-select" aria-label="Default select example">
                 <option selected>Selecione um formato de saída para o vídeo</option>
                 <option  value="mp4">MP4</option>
-                <option  value="webm">WebM</option>
-                <option value="gif">GIF</option>
+                <option  value="mp3">MP3</option>
+                <option  value="webm">WEBM</option>
+                <option  value="mov">MOV</option>
             </select>
         </div>
-        <button on:click={convertVideo} type="button" class="btn btn-primary">Converter</button>
-        <img bind:this={outputPreview} src="" alt="">
+        <p bind:this={conversionResult} class="my-2"></p>
+        <div class="d-flex flex-column align-items-start w-100">
+            <button on:click={convertVideo} type="button" class="btn btn-primary">Converter</button>
+            <a bind:this={downloadLink} href=""  class="btn mt-2 btn-success disabled" download="">Baixar ficheiro</a>
+            <img bind:this={outputPreview} src="" alt="">
+        </div>
     </div>
 </Tab>
 
