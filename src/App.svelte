@@ -1,23 +1,18 @@
 <script lang='typescript'>
-
-	import {onMount} from 'svelte';
         import Router from "svelte-spa-router";
-	import {initialize} from './utils';
-        import VideoTab from "./Tab.svelte";
 	import routes from './routes';
 
-        const tabs: Array<HTMLAnchorElement> = [];
-        onMount(async()=> {
-            tabs.forEach((el: HTMLAnchorElement)=>{
-                el.addEventListener("click", function(e){
-                   e.preventDefault(); 
-                   tabs.forEach((el:HTMLAnchorElement) => {
-                        el.classList.remove("active");
-                   });
-                   this.classList.add("active");
-                });
-            })
-        });
+        let videoTab: HTMLAnchorElement;
+        let imageTab: HTMLAnchorElement;
+        let audioTab: HTMLAnchorElement;
+
+        const switchTab = (e: MouseEvent) => {
+           videoTab.classList.remove("active")
+           imageTab.classList.remove("active")
+           audioTab.classList.remove("active")
+           let target = e.target as HTMLAnchorElement;
+           target.classList.add("active");
+        };
 </script>
 
 <svelte:head>
@@ -30,19 +25,19 @@
     <h4 class="mb-4">Mega Conversor</h4>
     <ul class="nav nav-tabs justify-content-center w-100 h-100, " id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <a href="#/video/" bind:this={tabs[0]} class="nav-link active" id="video-tab"  
+            <a href="#/video/" on:click={switchTab} bind:this={videoTab} class="nav-link active" id="video-tab"  
                  type="button" role="tab" aria-controls="home" aria-selected="true">
                 Vídeo
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a href="#/video/"  bind:this={tabs[1]}  class="nav-link" id="image-tab"  
+            <a href="#/video/"  on:click={switchTab} bind:this={imageTab}  class="nav-link" id="image-tab"  
                 type="button" role="tab" aria-controls="profile" aria-selected="false">
                 Imagem
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a  href="#/video/" class="nav-link"  bind:this={tabs[2]} id="sound-tab" 
+            <a  href="#/video/" class="nav-link"  on:click={switchTab} bind:this={audioTab} id="sound-tab" 
             type="button" role="tab" aria-controls="contact" aria-selected="false">
                 Som
             </a>

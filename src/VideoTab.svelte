@@ -47,7 +47,6 @@
         outputType = "0";
         await tick();
         fileInput.reset();
-        await tick();
     };
 </script>
 
@@ -66,7 +65,7 @@
                 <select bind:this={formatSelector} bind:value={outputType} id="output-format" class="form-select" aria-label="Default select example" disabled>
                     <option value="0" selected>Selecione um formato de saída para o vídeo</option>
                     <option  value="mp4">MP4</option>
-                    <option  value="mp3">MP3</option>
+                    <option  value="mp3">MP3 (Áudio apenas)</option>
                     <option  value="webm">WEBM</option>
                     <option  value="mov">MOV</option>
                 </select>
