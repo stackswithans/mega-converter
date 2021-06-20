@@ -2,16 +2,17 @@
     import Tab from "./Tab.svelte";
     import { convertFile } from "./utils";
     import FileInput from "./FileInput.svelte";
+    import Spinner from "./Spinner.svelte";
 
     let outputType: string;
     let file: File;
     let outputPreview: HTMLImageElement;
     let conversionResult: HTMLParagraphElement;
     let downloadLink: HTMLAnchorElement;
+    let formatSelector: HTMLSelectElement;
+    let convertButton: HTMLButtonElement;
 
     const convertVideo = async () => {
-        if(file === undefined) return;
-
         const [convertedFile, outname] = await convertFile(file, outputType);
         conversionResult.innerText = (
             "Conversão terminada. Novo tamanho: " 
@@ -22,16 +23,24 @@
         downloadLink.download = outname;
         downloadLink.classList.remove("disabled");
     }
+
+
+    const activateForm = () => {
+        convertButton.disabled = false;
+        formatSelector.disabled = false;
+    };
 </script>
+
+<Spinner/>
 
 <Tab>
     <div slot="preview">
-        <FileInput bind:file={file}/>
+        <FileInput on:change={activateForm} bind:file={file}/>
     </div>
     <div slot="controls">
         <div class="mb-3">
             <label for="output-format" class="form-label">Formato</label>
-            <select bind:value={outputType} id="output-format" class="form-select" aria-label="Default select example">
+            <select bind:this={formatSelector} bind:value={outputType} id="output-format" class="form-select" aria-label="Default select example" disabled>
                 <option selected>Selecione um formato de saída para o vídeo</option>
                 <option  value="mp4">MP4</option>
                 <option  value="mp3">MP3</option>
@@ -41,11 +50,11 @@
         </div>
         <p bind:this={conversionResult} class="my-2"></p>
         <div class="d-flex flex-column align-items-start w-100">
-            <button on:click={convertVideo} type="button" class="btn btn-primary">Converter</button>
-            <a bind:this={downloadLink} href=""  class="btn mt-2 btn-success disabled" download="">Baixar ficheiro</a>
+            <button bind:this={convertButton} on:click={convertVideo} type="button" class="btn btn-primary" disabled>Converter</button>
             <img bind:this={outputPreview} src="" alt="">
         </div>
     </div>
+    <a bind:this={downloadLink} href=""  class="btn mt-2 btn-success disabled" download="">Baixar ficheiro</a>
 </Tab>
 
 

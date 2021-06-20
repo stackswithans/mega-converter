@@ -24,7 +24,7 @@
 
 
 <main class="d-flex align-items-center flex-column">
-    <input bind:this={input} class="invisible" type="file" name="file">
+    <input on:change bind:this={input} class="invisible" type="file" name="file">
     <p bind:this={preview} class="mb-4 preview">Nenhum ficheiro selecionado</p>
     {#if file && type == "video"}
         <video class="mb-4" bind:this={mediaElement} width="250" src="" controls></video>
