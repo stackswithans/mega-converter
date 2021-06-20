@@ -1,6 +1,7 @@
 <script lang="typescript">
     import { onMount, tick } from "svelte"
 
+    export let emptyLabel: string = "Nenhum ficheiro selecionado";
     export let type: string = "video";
     export let file: File ;
     let imageElement: HTMLImageElement
@@ -11,10 +12,12 @@
 
     export const reset = () => {
         input.value = "";
-        mediaElement.src = "";
-        imageElement.src = ""; 
+        if(type === "video")
+            mediaElement.src = "";
+        else
+            imageElement.src = ""; 
         file = undefined as any; //Crazy hack to allow
-    }
+    };
 
     const uploadFile = () => {
         input.click();
@@ -33,7 +36,7 @@
 
 <main class="d-flex align-items-center flex-column">
     <input on:change bind:this={input} class="invisible" type="file" name="file">
-    <p bind:this={preview} class="mb-4 preview">Nenhum ficheiro selecionado</p>
+    <p bind:this={preview} class="mb-4 preview">{emptyLabel}</p>
     {#if file && type == "video"}
         <video class="mb-4" bind:this={mediaElement} width="250" src="" controls></video>
     {:else if file && type == "image"}

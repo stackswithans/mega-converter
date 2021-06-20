@@ -31,13 +31,13 @@
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a href="#/video/"  on:click={switchTab} bind:this={imageTab}  class="nav-link" id="image-tab"  
+            <a href="#/image/"  on:click={switchTab} bind:this={imageTab}  class="nav-link" id="image-tab"  
                 type="button" role="tab" aria-controls="profile" aria-selected="false">
                 Imagem
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a  href="#/video/" class="nav-link"  on:click={switchTab} bind:this={audioTab} id="sound-tab" 
+            <a  href="#/audio/" class="nav-link"  on:click={switchTab} bind:this={audioTab} id="sound-tab" 
             type="button" role="tab" aria-controls="contact" aria-selected="false">
                 Som
             </a>
