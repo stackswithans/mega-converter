@@ -3,10 +3,18 @@
 
     export let type: string = "video";
     export let file: File ;
+    let imageElement: HTMLImageElement
     let mediaElement: HTMLMediaElement;
     let input: HTMLInputElement;
     let preview: HTMLParagraphElement;
 
+
+    export const reset = () => {
+        input.value = "";
+        mediaElement.src = "";
+        imageElement.src = ""; 
+        file = undefined as any; //Crazy hack to allow
+    }
 
     const uploadFile = () => {
         input.click();
@@ -28,6 +36,10 @@
     <p bind:this={preview} class="mb-4 preview">Nenhum ficheiro selecionado</p>
     {#if file && type == "video"}
         <video class="mb-4" bind:this={mediaElement} width="250" src="" controls></video>
+    {:else if file && type == "image"}
+        <img class="mb-4" bind:this={imageElement} alt="preview of converted file" width="250" src=""/>
+    {:else if file && type == "audio"}
+        <audio class="mb-4" bind:this={mediaElement}  src="" controls></audio>
     {/if}
     <button on:click={uploadFile} class="btn btn-sm btn-primary">Carregar ficheiro</button>
 </main>

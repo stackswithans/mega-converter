@@ -7,9 +7,7 @@
 	import routes from './routes';
 
         const tabs: Array<HTMLAnchorElement> = [];
-
         onMount(async()=> {
-            await initialize();
             tabs.forEach((el: HTMLAnchorElement)=>{
                 el.addEventListener("click", function(e){
                    e.preventDefault(); 
