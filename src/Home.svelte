@@ -63,4 +63,8 @@
     .my-card:hover{
         cursor: pointer;
     }
+
+    .my-card:hover  *{
+        color: #34DBA1; 
+    }
 </style>
