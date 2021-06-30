@@ -7,7 +7,7 @@
     //File type
     export let emptyLabel: string;
     export let selectLabel: string = "Formato";
-    export let fileType: string;
+    export let fileType: "audio" | "video" | "image";
     export let formatOptions: Array<{value: string, text: string}>;
 
     //File state
@@ -26,7 +26,7 @@
         if(!outputType) return;
         loading = true;
         conversionDone = false;
-        const [convertedFile, outname] = await runFFmpeg(file, outputType);
+        const [convertedFile, outname] = await runFFmpeg(file, fileType, outputType);
         conversionDone = true;
         await tick();
         loading = false;

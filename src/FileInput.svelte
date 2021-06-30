@@ -12,10 +12,10 @@
 
     export const reset = () => {
         input.value = "";
-        if(type === "video")
-            mediaElement.src = "";
-        else
+        if(type === "image")
             imageElement.src = ""; 
+        else
+            mediaElement.src = ""; 
         file = undefined as any; //Crazy hack to allow
     };
 
@@ -28,7 +28,10 @@
             file = this.files[0];
             await tick();
             preview.innerText = `Detalhes: ${file.name}, ${(file.size/1024/1024).toFixed(2)}MB`;
-            mediaElement.src = URL.createObjectURL(file)
+            if(type === "image")
+                imageElement.src = URL.createObjectURL(file)
+            else
+                mediaElement.src = URL.createObjectURL(file)
         }, false);
     });
 </script>
@@ -56,5 +59,9 @@
 
     .btn{
         width: fit-content;
+    }
+
+    img{
+        max-height: 300px;
     }
 </style>

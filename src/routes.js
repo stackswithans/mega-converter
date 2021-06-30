@@ -1,9 +1,10 @@
 import VideoTab from "./VideoTab.svelte";
 import ImageTab from "./ImageTab.svelte";
 import AudioTab from "./AudioTab.svelte";
+import Home from "./Home.svelte";
 
 const routes = {
-    "/": VideoTab,
+    "/": Home,
     "/video": VideoTab,
     "/image": ImageTab,
     "/audio": AudioTab,
