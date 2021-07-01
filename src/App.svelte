@@ -1,18 +1,6 @@
 <script lang='typescript'>
         import Router from "svelte-spa-router";
 	import routes from './routes';
-
-        let videoTab: HTMLAnchorElement;
-        let imageTab: HTMLAnchorElement;
-        let audioTab: HTMLAnchorElement;
-
-        const switchTab = (e: MouseEvent) => {
-           videoTab.classList.remove("active")
-           imageTab.classList.remove("active")
-           audioTab.classList.remove("active")
-           let target = e.target as HTMLAnchorElement;
-           target.classList.add("active");
-        };
 </script>
 
 <svelte:head>
@@ -25,6 +13,11 @@
 <Router {routes}/>
   
 <style>
+    :global(:root){
+        --color-bg: #32312F !important;
+        --color-accent: #34DBA1 !important;
+    }
+
     :global(*, html, body){
         box-sizing: border-box;
     }

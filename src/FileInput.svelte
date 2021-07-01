@@ -1,21 +1,11 @@
 <script lang="typescript">
-    import { onMount, tick } from "svelte"
+    import { onMount } from "svelte"
 
-    export let emptyLabel: string = "Nenhum ficheiro selecionado";
-    export let type: string = "video";
     export let file: File ;
-    let imageElement: HTMLImageElement
-    let mediaElement: HTMLMediaElement;
     let input: HTMLInputElement;
-    let preview: HTMLParagraphElement;
-
 
     export const reset = () => {
         input.value = "";
-        if(type === "image")
-            imageElement.src = ""; 
-        else
-            mediaElement.src = ""; 
         file = undefined as any; //Crazy hack to allow
     };
 
@@ -24,14 +14,8 @@
     };
 
     onMount(() =>{
-        input.addEventListener("change", async function(){
+        input.addEventListener("change", async function(e: Event){
             file = this.files[0];
-            await tick();
-            preview.innerText = `Detalhes: ${file.name}, ${(file.size/1024/1024).toFixed(2)}MB`;
-            if(type === "image")
-                imageElement.src = URL.createObjectURL(file)
-            else
-                mediaElement.src = URL.createObjectURL(file)
         }, false);
     });
 </script>
@@ -39,29 +23,31 @@
 
 <main class="d-flex align-items-center flex-column">
     <input on:change bind:this={input} class="invisible" type="file" name="file">
-    <p bind:this={preview} class="mb-4 preview">{emptyLabel}</p>
-    {#if file && type == "video"}
-        <video class="mb-4" bind:this={mediaElement} width="250" src="" controls></video>
-    {:else if file && type == "image"}
-        <img class="mb-4" bind:this={imageElement} alt="preview of converted file" width="250" src=""/>
-    {:else if file && type == "audio"}
-        <audio class="mb-4" bind:this={mediaElement}  src="" controls></audio>
-    {/if}
-    <button on:click={uploadFile} class="btn btn-sm btn-primary">Carregar ficheiro</button>
+    <button on:click={uploadFile} class="btn btn-primary">Escolher ficheiro do computador</button>
+    <p class="my-4">ou baixe ficheiro da web:</p>
+    <input type="text" class="form-control" placeholder="Link para o ficheiro"/>
+    <button on:click class="btn btn-primary">Baixar ficheiro</button>
 </main>
 
 
 <style>
-    input {
+    main{
+        gap: 1rem;
+    }
+
+
+    input[type="text"] {
+        max-width: 50%;
+    }
+
+    input[type="file"] {
         width: 0;
         height: 0;
     }
 
     .btn{
         width: fit-content;
-    }
-
-    img{
-        max-height: 300px;
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
     }
 </style>
