@@ -7,8 +7,10 @@
     import { MediaType } from "./types";
 
     
-    let width: number;
-    let height: number;
+    let width: number = 0;
+    let height: number = 0;
+    let maxWidth: number = 0;
+    let maxHeight: number = 0;
 
     let media: MediaType = MediaType.IMAGE ;
     let preview: FilePreview;
@@ -21,9 +23,14 @@
             return;
         }
         preview.setFile(file as any);
-        width = mediaProps.width;
-        height = mediaProps.width;
     });
+
+    $: {
+        if((maxWidth && maxHeight) && !(width && height)){
+            width = maxWidth;
+            height = maxHeight;
+        }
+    }
 
 </script>
 
@@ -33,16 +40,16 @@
     </header>
     <div class="content d-flex align-items-center w-100">
         <aside class="w-50 d-flex cols">
-            <FilePreview bind:elementWidth={width} bind:elementHeight={height} bind:this={preview} height="100%" width="100%" type={media}/>
+            <FilePreview bind:elementWidth={maxWidth} bind:elementHeight={maxHeight} bind:this={preview} height="100%" width="100%" type={media}/>
         </aside>
         <aside class="w-50 cols d-flex text-start flex-column">
             <div class="mb-3">
-                <label for="largura" class="form-label">Largura</label>
-                <input bind:value={width} type="number" class="form-control" id="Largura">
+                <label for="largura" class="form-label">Largura (em pixels)</label>
+                <input bind:value={width} max={maxWidth} type="number" class="form-control" id="Largura">
             </div>
             <div class="mb-3">
-                <label for="altura" class="form-label">Altura</label>
-                <input bind:value={height} type="number" class="form-control" id="altura">
+                <label for="altura" class="form-label">Altura (em pixels)</label>
+                <input bind:value={height} max={maxHeight} type="number" class="form-control" id="altura">
             </div>
             <div class="mb-4">
                 <label for="altura" class="form-label">Formato de saída</label>
