@@ -33,26 +33,21 @@
                 mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin',
+                headers:{
+                    Accept:"image/*,audio/*,video/*", 
+                },
                 redirect: 'follow', 
             });
         }
         catch(e){
-            alert("Não foi possível baixar a imagem");
+            alert("Não foi possível baixar o ficheiro ");
             loading = false;
             return;
         }
 
         const blob = await response.blob();
-        if(
-            !blob.type.includes("image") && 
-            !blob.type.includes("video") && 
-            !blob.type.includes("audio")
-        ){
-            alert("O link fornecido não é um ficheiro válido");
-            loading = false;
-            return;
-        }
-        file = new File([blob], "imagem_baixada");
+        file = new File([blob], "fichero_baixado");
+        loading = false;
     };
 
 </script>
