@@ -1,7 +1,23 @@
 <script lang="typescript">
+    import { onMount } from "svelte";
+    import { push } from "svelte-spa-router";
     import FilePreview from "./FilePreview.svelte";
     import Button from "./Button.svelte";
+    import { loadedFile } from "./stores";
+    import { MediaType } from "./types";
+
     let preview: FilePreview;
+
+    let {file, mediaType } = $loadedFile;
+
+    onMount(async() => {
+        if(file === null || mediaType == MediaType.EMPTY){
+            push("/");
+            return;
+        }
+        preview.setFile(file as any);
+    });
+
 </script>
 
 <main class="d-flex flex-column text-center align-items-center pt-3 justify-content-start container-fluid h-100">

@@ -1,13 +1,14 @@
 <script lang="typescript">
     import FileInput from "./FileInput.svelte";
     import FilePreview from "./FilePreview.svelte";
+    import { loadedFile } from "./stores";
+    import { MediaType } from "./types";
 
     let preview: FilePreview;
     let file: File
 
-    type media_types = "audio" | "image" | "video";
-    export let params: {type: media_types};
-    const types = {
+    export let params: {type: MediaType};
+    const types= {
         "audio": "um áudio",
         "video": "um vídeo",
         "image": "uma imagem",
@@ -16,12 +17,14 @@
     $:{
         if(file !== undefined){
             preview.setFile(file);
+            loadedFile.set({ file: file as any, type: params.type as any })
         }
     }
 
     const resetFile = () => {
         file = undefined as any;
         preview.reset();
+        loadedFile.set({ file: null as any, type: MediaType.EMPTY})
     };
 </script>
 
@@ -37,7 +40,7 @@
         </aside>
         <aside class="w-50 cols d-flex flex-column">
             {#if !file}
-                <FileInput bind:file={file} type="{params.type}"/>
+                <FileInput bind:file={file}/>
             {:else}
                 <div class="w-100 d-flex flex-column align-items-center">
                     <a class="btn btn-primary mb-3" href="#/convert/{params.type}">Continuar</a>

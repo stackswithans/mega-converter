@@ -1,7 +1,8 @@
 <script lang="typescript">
     import { tick } from "svelte"
+    import { MediaType } from "./types";
 
-    export let type: string = "video";
+    export let type: MediaType = MediaType.VIDEO;
     let fileDetails = "Nenhum ficheiro selecionado"; 
     export let width: string;
     export let height: string;
@@ -34,11 +35,11 @@
 
 <main style="width:{width};height:{height}" class="d-flex align-items-center justify-content-center flex-column">
     <p class="mb-4 preview">{fileDetails}</p>
-    {#if fileIsSet && type == "video"}
+    {#if fileIsSet && type == MediaType.VIDEO}
         <video class="mb-4" bind:this={mediaElement} src="" controls></video>
-    {:else if fileIsSet && type == "image"}
+    {:else if fileIsSet && type == MediaType.IMAGE}
         <img class="mb-4" bind:this={imageElement} alt="preview of converted file" src=""/>
-    {:else if fileIsSet && type == "audio"}
+    {:else if fileIsSet && type == MediaType.AUDIO}
         <audio class="mb-4" bind:this={mediaElement}  src="" controls></audio>
     {/if}
 </main>
