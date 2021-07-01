@@ -66,4 +66,8 @@
         max-width: 250px;
         max-height: 250px;
     }
+
+    main p{
+        width: 25ch;
+    }
 </style>

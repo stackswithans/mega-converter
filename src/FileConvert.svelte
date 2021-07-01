@@ -26,14 +26,14 @@
     let loading = false;
     let conversionDone = false;
 
-    let conversionResult: HTMLParagraphElement;
+    let conversionText: string;
     let downloadLink: HTMLAnchorElement;
     let formatSelector: HTMLSelectElement;
     let convertButton: HTMLButtonElement;
 
     let outputType: string;
-    let width: number = 0;
-    let height: number = 0;
+    let width: number = -1;
+    let height: number = -1;
     let maxWidth: number = 0;
     let maxHeight: number = 0;
 
@@ -46,19 +46,15 @@
 
 
     $: {
-        if((maxWidth && maxHeight) && !(width && height)){
+        if((maxWidth && maxHeight) && (width < 0  && height < 0)){
             width = maxWidth;
             height = maxHeight;
         }
     }
 
-    const resetConvert = async () => {
+    const resetConvert = () => {
         conversionDone = false;
-        await tick();
-        convertButton.disabled = true;
-        formatSelector.disabled = true;
-        outputType = "0";
-        await tick();
+        push("/");
     };
 
     const convertFile = async () => {
@@ -74,11 +70,10 @@
         conversionDone = true;
         await tick();
         loading = false;
-        conversionResult.innerText = (
+        conversionText = (
             "Conversão terminada. Novo tamanho: " 
             + (convertedFile.size/1024/1024).toFixed(2) + "MB"
         );
-
         downloadLink.href = URL.createObjectURL(convertedFile);
         downloadLink.download = outname;
         downloadLink.classList.remove("disabled");
@@ -90,10 +85,10 @@
 {/if}
 
 <main class="d-flex flex-column text-center align-items-center pt-3 justify-content-start container-fluid h-100">
-    <header class="pt-3">
-        <p class="h2">Altere os parâmetros de conversão</p>
-    </header>
     {#if !conversionDone}
+        <header class="pt-3">
+            <p class="h2">Altere os parâmetros de conversão</p>
+        </header>
         <div class="content d-flex align-items-center w-100">
             <aside class="w-50 d-flex cols">
                 <FilePreview bind:elementWidth={maxWidth} bind:elementHeight={maxHeight} bind:this={preview} height="100%" width="100%" type={media}/>
@@ -120,8 +115,11 @@
             </aside>
         </div>
     {:else}
-        <div class="d-flex text-center flex-column align items center">
-            <p bind:this={conversionResult} class="my-2"></p>
+        <div class="d-flex text-center flex-column justify-content-center align-items-center w-100 h-100">
+            <header class="pt-3">
+                <p class="h2">Ficheiro convertido!</p>
+            </header>
+            <p class="my-2">{conversionText}</p>
             <div class="d-flex justify-content-center align-items center mt-2">
                 <a bind:this={downloadLink} href=""  class="btn me-2 btn-success" download="">Baixar ficheiro</a>
                 <button on:click={resetConvert} type="button" class="btn btn-primary">Converter outro ficheiro</button>
