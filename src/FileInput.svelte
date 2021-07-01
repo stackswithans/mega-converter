@@ -25,6 +25,7 @@
     };
 
     const fetchFile = async () => {
+        if(!fileUrl) return;
         let response; 
         loading = true;
         try{
@@ -80,7 +81,7 @@
         height: 0;
     }
 
-    .btn{
+    .btn, .btn:hover, .btn:active, .btn:focus{
         width: fit-content;
         background-color: var(--color-accent);
         border-color: var(--color-accent);

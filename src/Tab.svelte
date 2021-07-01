@@ -61,6 +61,9 @@
     <Spinner/>
 {/if}
 
+<main class="d-flex flex-column text-center align-items-center pt-3 justify-content-start container-fluid h-100">
+
+</main>
 {#if !conversionDone}
     <div class="d-flex justify-content-evenly w-100">
         <aside class="d-flex justify-content-start w-50 flex-column">
