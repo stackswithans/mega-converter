@@ -2,17 +2,18 @@
     import { tick } from "svelte"
 
     export let type: string = "video";
+    let fileDetails = "Nenhum ficheiro selecionado"; 
     export let width: string;
     export let height: string;
     let imageElement: HTMLImageElement
     let mediaElement: HTMLMediaElement;
-    let preview: HTMLParagraphElement;
     let fileIsSet = false;
 
 
 
     export const reset = () => {
         fileIsSet = false;
+        fileDetails = "Nenhum ficheiro selecionado"; 
         if(type === "image")
             imageElement.src = ""; 
         else
@@ -22,7 +23,7 @@
     export const setFile = async (file: File) => {
         fileIsSet = true;
         await tick();
-        preview.innerText = `Detalhes: ${file.name}, ${(file.size/1024/1024).toFixed(2)}MB`;
+        fileDetails = `Detalhes: ${file.name}, ${(file.size/1024/1024).toFixed(2)}MB`;
         if(type === "image")
             imageElement.src = URL.createObjectURL(file)
         else
@@ -32,7 +33,7 @@
 
 
 <main style="width:{width};height:{height}" class="d-flex align-items-center justify-content-center flex-column">
-    <p bind:this={preview} class="mb-4 preview">Nenhum ficheiro selecionado</p>
+    <p class="mb-4 preview">{fileDetails}</p>
     {#if fileIsSet && type == "video"}
         <video class="mb-4" bind:this={mediaElement} src="" controls></video>
     {:else if fileIsSet && type == "image"}
