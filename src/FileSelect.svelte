@@ -40,7 +40,7 @@
                 <FileInput bind:file={file} type="{params.type}"/>
             {:else}
                 <div class="w-100 d-flex flex-column align-items-center">
-                    <a class="btn btn-primary mb-3" href="">Continuar</a>
+                    <a class="btn btn-primary mb-3" href="#/convert/{params.type}">Continuar</a>
                     <button on:click={resetFile} class="btn btn-light" href="">Carregar um ficheiro diferente</button>
                 </div>
             {/if}

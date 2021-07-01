@@ -1,8 +1,19 @@
 <script lang="typescript">
     import { onMount } from "svelte"
+    import Spinner from "./Spinner.svelte";
 
     export let file: File ;
+
     let input: HTMLInputElement;
+    let fileUrl: string;
+
+    let loading: boolean = false;
+
+    onMount(() =>{
+        input.addEventListener("change", async function(e: Event){
+            file = this.files[0];
+        }, false);
+    });
 
     export const reset = () => {
         input.value = "";
@@ -13,20 +24,49 @@
         input.click();
     };
 
-    onMount(() =>{
-        input.addEventListener("change", async function(e: Event){
-            file = this.files[0];
-        }, false);
-    });
+    const fetchFile = async () => {
+        let response; 
+        loading = true;
+        try{
+            response = await fetch(fileUrl, {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                redirect: 'follow', 
+            });
+        }
+        catch(e){
+            alert("Não foi possível baixar a imagem");
+            loading = false;
+            return;
+        }
+
+        const blob = await response.blob();
+        if(
+            !blob.type.includes("image") && 
+            !blob.type.includes("video") && 
+            !blob.type.includes("audio")
+        ){
+            alert("O link fornecido não é um ficheiro válido");
+            loading = false;
+            return;
+        }
+        file = new File([blob], "imagem_baixada");
+    };
+
 </script>
 
 
+{#if loading}
+    <Spinner/>
+{/if}
 <main class="d-flex align-items-center flex-column">
     <input on:change bind:this={input} class="invisible" type="file" name="file">
     <button on:click={uploadFile} class="btn btn-primary">Escolher ficheiro do computador</button>
-    <p class="my-4">ou baixe ficheiro da web:</p>
-    <input type="text" class="form-control" placeholder="Link para o ficheiro"/>
-    <button on:click class="btn btn-primary">Baixar ficheiro</button>
+    <p class="my-4">ou carregue ficheiro da web:</p>
+    <input bind:value={fileUrl} type="text" class="form-control" placeholder="Link para o ficheiro"/>
+    <button on:click={fetchFile} class="btn btn-primary">Carregar ficheiro</button>
 </main>
 
 
