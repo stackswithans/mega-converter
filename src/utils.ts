@@ -40,7 +40,15 @@ export const convertFile = async (
     let args = [];
     switch (fileType) {
         case MediaType.VIDEO:
-            args = ["-i", inputFile, "-crf", "28", "-r", "30", outputFile];
+            args = [
+                "-i",
+                inputFile,
+                "-vf",
+                `scale=-1:${options.resolution}`,
+                "-filter:v",
+                `fps=${options.fps}`,
+                outputFile,
+            ];
             break;
         case MediaType.IMAGE:
             args = [

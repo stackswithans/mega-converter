@@ -31,8 +31,6 @@
     .spinner-border{
         width: 80px;
         height: 80px;
-        color : var(--color-accent);
-        background-color : var(--color-accent);
     }
 </style>
 

@@ -52,7 +52,7 @@
 <main style="width:{width};height:{height}" class="d-flex align-items-center justify-content-center flex-column">
     <p class="mb-4 preview">{fileDetails}</p>
     {#if fileIsSet && type == MediaType.VIDEO}
-        <video on:load={setDimensions} class="mb-4" bind:this={mediaElement} src="" controls></video>
+        <video on:resize={setDimensions} class="mb-4" bind:this={mediaElement} src="" controls></video>
     {:else if fileIsSet && type == MediaType.IMAGE}
         <img on:load={setDimensions} class="mb-4" bind:this={imageElement} alt="preview of converted file" src=""/>
     {:else if fileIsSet && type == MediaType.AUDIO}
