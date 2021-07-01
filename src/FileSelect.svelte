@@ -17,14 +17,29 @@
     $:{
         if(file !== undefined){
             preview.setFile(file);
-            loadedFile.set({ file: file as any, type: params.type as any })
+            let data = {
+                file: file as any, 
+                mediaType: params.type as any, 
+                mediaProps: {}
+            };
+            if(params.type === MediaType.VIDEO || params.type === MediaType.IMAGE){
+                data = {
+                    ...data, 
+                    mediaProps: {}
+                }
+            }
+            loadedFile.set(data);
         }
     }
 
     const resetFile = () => {
         file = undefined as any;
         preview.reset();
-        loadedFile.set({ file: null as any, type: MediaType.EMPTY})
+        loadedFile.set({ 
+            file: null as any, 
+            mediaType: MediaType.EMPTY, 
+            mediaProps: {}
+        });
     };
 </script>
 

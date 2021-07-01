@@ -1,41 +1,48 @@
 <script lang="typescript">
-    import { onMount } from "svelte";
+    import { onMount, tick } from "svelte";
     import { push } from "svelte-spa-router";
     import FilePreview from "./FilePreview.svelte";
     import Button from "./Button.svelte";
     import { loadedFile } from "./stores";
     import { MediaType } from "./types";
 
+    
+    let width: number;
+    let height: number;
+
+    let media: MediaType = MediaType.IMAGE ;
     let preview: FilePreview;
 
-    let {file, mediaType } = $loadedFile;
+    let {file, mediaType, mediaProps } = $loadedFile;
 
     onMount(async() => {
-        if(file === null || mediaType == MediaType.EMPTY){
+        if(file === null || mediaType === MediaType.EMPTY){
             push("/");
             return;
         }
         preview.setFile(file as any);
+        width = mediaProps.width;
+        height = mediaProps.width;
     });
 
 </script>
 
 <main class="d-flex flex-column text-center align-items-center pt-3 justify-content-start container-fluid h-100">
     <header class="pt-3">
-        <p class="h2">Altere os parâmetros de conversão </p>
+        <p class="h2">Altere os parâmetros de conversão</p>
     </header>
     <div class="content d-flex align-items-center w-100">
         <aside class="w-50 d-flex cols">
-            <FilePreview bind:this={preview} height="100%" width="100%" type="image"/>
+            <FilePreview bind:elementWidth={width} bind:elementHeight={height} bind:this={preview} height="100%" width="100%" type={media}/>
         </aside>
         <aside class="w-50 cols d-flex text-start flex-column">
             <div class="mb-3">
                 <label for="largura" class="form-label">Largura</label>
-                <input type="number" class="form-control" id="Largura">
+                <input bind:value={width} type="number" class="form-control" id="Largura">
             </div>
             <div class="mb-3">
                 <label for="altura" class="form-label">Altura</label>
-                <input type="number" class="form-control" id="altura">
+                <input bind:value={height} type="number" class="form-control" id="altura">
             </div>
             <div class="mb-4">
                 <label for="altura" class="form-label">Formato de saída</label>
