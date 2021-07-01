@@ -2,7 +2,7 @@
     export let width: string;
 </script>
 
-<button class="btn btn-primary" style="width:{width};"><slot></slot></button>
+<button on:click class="btn btn-primary" style="width:{width};"><slot></slot></button>
 
 
 

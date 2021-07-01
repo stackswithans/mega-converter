@@ -1,8 +1,12 @@
+<script lang="typescript">
+    export let text: string; 
+</script>
+
 <div class="overlay">
     <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
-    <p class="text-white mt-2">Convertendo ficheiro...</p>
+    <p class="text-white mt-2">{text}...</p>
 </div>
 
 
@@ -23,9 +27,12 @@
         height: 100vh;
     }
 
+
     .spinner-border{
         width: 80px;
         height: 80px;
+        color : var(--color-accent);
+        background-color : var(--color-accent);
     }
 </style>
 
