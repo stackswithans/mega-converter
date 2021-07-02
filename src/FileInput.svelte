@@ -3,6 +3,7 @@
     import Spinner from "./Spinner.svelte";
 
     export let file: File ;
+    export let accept: string;
 
     let input: HTMLInputElement;
     let fileUrl: string;
@@ -58,7 +59,7 @@
     <Spinner/>
 {/if}
 <main class="d-flex align-items-center flex-column">
-    <input on:change bind:this={input} class="invisible" type="file" name="file">
+    <input on:change bind:this={input} class="invisible" type="file" name="file" {accept}>
     <button on:click={uploadFile} class="btn btn-primary">Escolher ficheiro do computador</button>
     <p class="my-4">ou carregue ficheiro da web:</p>
     <input bind:value={fileUrl} type="text" class="form-control" placeholder="Link para o ficheiro"/>

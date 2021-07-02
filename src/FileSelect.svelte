@@ -8,11 +8,18 @@
     let file: File
 
     export let params: {type: MediaType};
-    const types= {
+    const type = {
         "audio": "um áudio",
         "video": "um vídeo",
         "image": "uma imagem",
-    }
+    }[params.type as string];
+
+    const accept: string = {
+        "audio": "audio/*",
+        "video": "video/*",
+        "image": "image/*",
+    }[params.type as string] as string;
+
 
     $:{
         if(file !== undefined){
@@ -47,7 +54,7 @@
 
 <main class="d-flex flex-column text-center align-items-center pt-3 justify-content-start container-fluid h-100">
     <header class="pt-3">
-        <p class="h2">Carregue {types[params.type]} para converter</p>
+        <p class="h2">Carregue {type} para converter</p>
     </header>
     <div class="content d-flex align-items-center w-100">
         <aside class="w-50 d-flex cols">
@@ -55,7 +62,7 @@
         </aside>
         <aside class="w-50 cols d-flex flex-column">
             {#if !file}
-                <FileInput bind:file={file}/>
+                <FileInput bind:file={file} {accept}/>
             {:else}
                 <div class="w-100 d-flex flex-column align-items-center">
                     <a class="btn btn-primary mb-3" href="#/convert/{params.type}">Continuar</a>
