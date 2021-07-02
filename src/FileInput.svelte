@@ -49,16 +49,17 @@
         }
 
         const blob = await response.blob();
-        file = new File([blob], "fichero_baixado");
+        let [prefix, extension] = blob.type.split("/");
+        file = new File([blob], `${prefix}_${new Date().getTime()}.${extension}`);
         loading = false;
     };
 
 </script>
-
-
 {#if loading}
-    <Spinner text="Carregando imagem"/>
+    <Spinner/>
 {/if}
+
+
 <main class="d-flex align-items-center flex-column">
     <input on:change bind:this={input} class="invisible" type="file" name="file" {accept}>
     <button on:click={uploadFile} class="btn btn-primary">Escolher ficheiro do computador</button>

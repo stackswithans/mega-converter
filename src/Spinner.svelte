@@ -1,5 +1,5 @@
 <script lang="typescript">
-    export let text: string; 
+    export let text: string = "Carregando ficheiro"; 
 </script>
 
 <div class="overlay">
