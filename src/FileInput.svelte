@@ -16,6 +16,7 @@
         }, false);
     });
 
+
     export const reset = () => {
         input.value = "";
         file = undefined as any; //Crazy hack to allow
@@ -36,7 +37,7 @@
                 cache: 'no-cache',
                 credentials: 'same-origin',
                 headers:{
-                    Accept:"image/*,audio/*,video/*", 
+                    Accept:accept, 
                 },
                 redirect: 'follow', 
             });
@@ -56,7 +57,7 @@
 
 
 {#if loading}
-    <Spinner/>
+    <Spinner text="Carregando imagem"/>
 {/if}
 <main class="d-flex align-items-center flex-column">
     <input on:change bind:this={input} class="invisible" type="file" name="file" {accept}>
